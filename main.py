@@ -42,7 +42,7 @@ def query_api(URI: str, repeat=False, limit=0) -> dict:
     if repeat:
         response = requests.get(f'{URI}?limit={limit}', headers={'Authorization': f'Bearer {API_KEY}'}).json()
         i = 1
-        while len(response["items"]) % limit == 0:
+        while len(response["items"]) % limit == 0 and len(response["items"]) != 0:
             offset = i * limit
             new_request = requests.get(f'{URI}?offset={offset}&limit={limit}', headers={'Authorization': f'Bearer {API_KEY}'}).json()
             response["items"] += new_request["items"]
