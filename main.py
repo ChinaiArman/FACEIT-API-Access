@@ -85,9 +85,7 @@ def format_match_data_to_csv(match_data: dict) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The formatted match data.
     """
-    df = pd.DataFrame(columns=[
-        "w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8", "w9", "l1", "l2", "l3", "l4", "l5", "l6", "l7", "l8", "l9"
-    ])
+    df = pd.DataFrame(columns=MATCH_COLUMNS)
     for match in match_data["items"]:
         try: 
             winner = match["results"]["winner"]
