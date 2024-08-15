@@ -89,9 +89,9 @@ def format_match_data_to_csv(match_data: dict) -> pd.DataFrame:
     for match in match_data["items"]:
         try: 
             winner = match["results"]["winner"]
-            winners = [player["nickname"] for player in match["teams"][winner]["roster"]]
+            winners = [player["game_player_name"] for player in match["teams"][winner]["roster"]]
             loser = "faction1" if winner != "faction1" else "faction2"
-            losers = [player["nickname"] for player in match["teams"][loser]["roster"]]
+            losers = [player["game_player_name"] for player in match["teams"][loser]["roster"]]
             winnersSeries = pd.Series({f'w{i+1}': winners[i] for i in range(0, min(9, len(winners)))})
             losersSeries = pd.Series({f'l{i+1}': losers[i] for i in range(0, min(9, len(winners)))})
             match_series = pd.concat([winnersSeries, losersSeries])
@@ -99,7 +99,7 @@ def format_match_data_to_csv(match_data: dict) -> pd.DataFrame:
         except Exception as e:
             if match["teams"]["faction2"]["faction_id"] == "bye":
                 try:
-                    winnersSeries = pd.Series({f'w{i+1}': match["teams"]["faction1"]["roster"][i]["nickname"] for i in range(0, min(9, len(match["teams"]["faction1"]["roster"])))})
+                    winnersSeries = pd.Series({f'w{i+1}': match["teams"]["faction1"]["roster"][i]["game_player_name"] for i in range(0, min(9, len(match["teams"]["faction1"]["roster"])))})
                     losersSeries = pd.Series({'l1': 'BYE'})
                     match_series = pd.concat([winnersSeries, losersSeries])
                     df = pd.concat([df, match_series.to_frame().T], ignore_index=True)
