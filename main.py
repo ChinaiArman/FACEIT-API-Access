@@ -45,6 +45,8 @@ def query_api(URI: str, repeat=False, limit=0) -> dict:
         while len(response["items"]) % limit == 0 and len(response["items"]) != 0:
             offset = i * limit
             new_request = requests.get(f'{URI}?offset={offset}&limit={limit}', headers={'Authorization': f'Bearer {API_KEY}'}).json()
+            if len(new_request["items"]) == 0:
+                break
             response["items"] += new_request["items"]
             i+=1
         return response
